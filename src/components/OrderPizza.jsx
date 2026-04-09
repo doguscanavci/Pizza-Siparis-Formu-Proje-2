@@ -7,7 +7,8 @@ import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import logo from '../../images/iteration-1-images/logo.svg';
 import banner from '../../images/iteration-2-images/pictures/form-banner.png';
 
-const OrderPizza = () => {
+// Props içinden setOrderData'yı alıyoruz
+const OrderPizza = ({ setOrderData }) => {
   const history = useHistory();
   const [counter, setCounter] = useState(1);
   const [isFormValid, setIsFormValid] = useState(false);
@@ -49,10 +50,29 @@ const OrderPizza = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Başarı sayfasına gönderilecek final veri objesi
+    const finalOrder = {
+      name: "Position Absolute Acı Pizza",
+      size: formData.boyut,
+      dough: formData.hamur.charAt(0).toUpperCase() + formData.hamur.slice(1), // Baş harfi büyük yapar
+      ingredients: formData.malzemeler.join(", "),
+      extrasPrice: secimlerToplami.toFixed(2),
+      totalPrice: toplamFiyat.toFixed(2)
+    };
+
     const config = { headers: { 'x-api-key': 'reqres-free-v1' } };
+    
     axios.post('https://reqres.in/api/users', formData, config)
-      .then(() => history.push('/success'))
-      .catch(() => history.push('/success'));
+      .then(() => {
+        setOrderData(finalOrder); // App.jsx'teki state'i güncelle
+        history.push('/success');
+      })
+      .catch(() => {
+        // Hata durumunda bile sunumun çalışması için veriyi setliyoruz
+        setOrderData(finalOrder);
+        history.push('/success');
+      });
   };
 
   return (
