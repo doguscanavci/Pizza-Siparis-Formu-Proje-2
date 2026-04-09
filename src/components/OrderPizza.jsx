@@ -7,7 +7,6 @@ import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import logo from '../../images/iteration-1-images/logo.svg';
 import banner from '../../images/iteration-2-images/pictures/form-banner.png';
 
-// Props içinden setOrderData'yı alıyoruz
 const OrderPizza = ({ setOrderData }) => {
   const history = useHistory();
   const [counter, setCounter] = useState(1);
@@ -51,11 +50,10 @@ const OrderPizza = ({ setOrderData }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Başarı sayfasına gönderilecek final veri objesi
     const finalOrder = {
       name: "Position Absolute Acı Pizza",
       size: formData.boyut,
-      dough: formData.hamur.charAt(0).toUpperCase() + formData.hamur.slice(1), // Baş harfi büyük yapar
+      dough: formData.hamur.charAt(0).toUpperCase() + formData.hamur.slice(1),
       ingredients: formData.malzemeler.join(", "),
       extrasPrice: secimlerToplami.toFixed(2),
       totalPrice: toplamFiyat.toFixed(2)
@@ -65,11 +63,10 @@ const OrderPizza = ({ setOrderData }) => {
     
     axios.post('https://reqres.in/api/users', formData, config)
       .then(() => {
-        setOrderData(finalOrder); // App.jsx'teki state'i güncelle
+        setOrderData(finalOrder);
         history.push('/success');
       })
       .catch(() => {
-        // Hata durumunda bile sunumun çalışması için veriyi setliyoruz
         setOrderData(finalOrder);
         history.push('/success');
       });

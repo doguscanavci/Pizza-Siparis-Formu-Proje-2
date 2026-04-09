@@ -13,11 +13,9 @@ function App() {
         <Home />
       </Route>
       <Route path="/pizza">
-        {/* State'i güncelleme yetkisini OrderPizza'ya veriyoruz */}
         <OrderPizza setOrderData={setOrderData} />
       </Route>
       <Route path="/success">
-        {/* Kaydedilen veriyi Success sayfasına gönderiyoruz */}
         <Success orderData={orderData} />
       </Route>
     </Switch>
